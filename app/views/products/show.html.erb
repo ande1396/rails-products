@@ -1,0 +1,130 @@
+<h1>Products#show</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<td>Product ID #</td>
+			<td>Product name</td>
+			<td>Product Description</td>
+			<td>Product Price</td>
+		</tr>
+
+	</thead>
+	<tbody>
+		<tr>
+			<td><%= @product.id %></td>
+			<td><%= @product.name %></td>
+			<td><%= @product.description %></td>
+			<td><%= @product.pricing %></td>
+		</tr> 
+	</tbody>
+
+
+
+</table>
+
+
+
+
+
+
+<h2>Lets delete/edit this form</h2>
+
+<form action="/products/<%= @product.id%>" method="post">
+
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+
+	<input type="hidden" name="_method" value="delete">
+	<!-- to distguinish betweem the four products/id --> 
+
+	<input type='submit' value="Delete Product">
+
+</form>
+<!-- as of now, this button wont do anyhting, nothing on the controller --> 
+
+
+
+<!-- atm this wont do anything either --> 
+
+<!--######## DOES edit have to be on the edit page --> 
+
+<%#= simple_form_for @product, :defaults => { :wrapper_html => {:class => 'form-group'}, :input_html => { :class => 'form-control' } }, html: { class: "col-md-6" } do |f| %>
+	<%#= f.button :delete, class: 'btn' %>	
+<%# end %> 
+
+<%= link_to 'Edit Category ID', edit_product_path, :class => "btn btn-primary", method: :get %>
+
+<%= link_to 'Delete', @product, :class => "btn btn-danger", 
+                                  method: :delete, 
+                                  data: { confirm: 'Are you sure?' } %>
+
+
+<%= link_to 'Index', products_path, :class => "btn btn-success", method: :get %>
+
+
+ <!-- link to destroy (whatever you want the thing to say) method, post request, 
+ @product is the db table (after 'delete')--> 
+ <!-- making it look like a btn --> 
+ <!-- use linked to more when you are getting the get request --> 
+
+<h1>Comment Area</h1>
+
+<form action="/comments" method="post"> <!-- /comments is the route for create, with a POst as the method -->
+
+	 <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden"> 
+
+	<!-- passing in product id as the product_id of the comment, thats what makes it connect to the correct product, cuz if you didnt have that, it would be standalone product, not assosicated with any product. -->
+
+   <!--################# --> 
+	<input type="hidden" name="[comment][product_id]" value="<%= @product[:id] %>"> <!-- if type="" the product id will display, how you check....This value @oroduct is making sure we are using the correct product to make comments on, "the hidden" makes it so the user cant see, comment[product_id] -> saying if the product id associated with that comment, in my first ex. i had product id 4 that I was making a comment on, we have to make a relationship between them, so my comment table should have the product id of 4, which is [comment][product_id] --> 
+
+	<input type="text" name="[comment][author]" placeholder="Author">
+	<!-- to distguinish betweem the four products_id (have 4 at the momment, could be more or less, how many u make-->
+	<textarea type="text" rows="4" cols="50" name="[comment][content]" placeholder="Comment here" rows="4" cols="50"></textarea>  
+
+	 <input type='submit' value="Submit Comment"> 
+
+</form> 
+
+
+ <%= simple_form_for @comment, url: comments_path, :defaults => { :wrapper_html => {:class => 'form-group'}, :input_html => { :class => 'form-control' } }, html: { class: "col-md-6" } do |f| %>
+
+ 	<!--###<%= f.error_notification %>### --> 
+
+	<%= f.input :author %>
+	<%= f.input :content %>
+	<%= f.hidden_field :product_id, value: @product[:id] %>
+	<%= f.button :submit, class: 'btn' %>	
+<% end %> 
+<!-- this is will to the comments controller --> 
+<!-- on the show for products controller, when it loads the page, it will run down the controller and display all the current things --> 
+
+<h2>Comments for this product</h2>
+<% @comments.each do |comment| %>
+<tr>
+	
+</tr>
+<% end %> 
+
+
+<table>
+	<theah>
+		<tr>
+			<th>Author</th>
+			<th>Comment</th>
+		</tr>
+	</thead>
+
+	<tbody>
+
+			<% @comments.each do |comment| %>
+			<tr>
+				<td><%= comment.author %></td>
+				<td><%= comment.content %> </td>
+			<tr/>
+
+	</tbody> 
+
+<% end %>
+
+</table>

@@ -1,0 +1,42 @@
+<h1>Products#index</h1>
+<p>Find me in app/views/products/index.html.erb</p>
+
+
+<table>
+	<theah>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Price</th>
+
+		</tr>
+	</thead>
+
+	<tbody>
+
+		
+			<% @products.each do |product| %>
+			<tr>
+				<td><%= product.id %></td>
+				<!-- this is for me to see what products I want to delete on the show page --> 
+				<td><%= product.name %></td>
+				<td><%= product.description %></td>
+				<td><%= product.pricing %></td>
+				<td><%= link_to 'Show', product, :class => "btn btn-success" %></td>
+        <td><%= link_to 'Edit', edit_product_path(product), :class => "btn btn-primary" %></td>
+
+
+        
+
+<!--############## its product for both because of the for loop above         ###########-->
+
+		<tr/>
+
+	</tbody> 
+
+<% end %>
+
+</table>
+<%= link_to 'New Product', new_product_path, :class => "btn btn-danger" %>
+

@@ -1,0 +1,41 @@
+<h1>Products#new</h1>
+<p>Find me in app/views/products/new.html.erb</p>
+
+<h1><u>Let's make a new Product</u></h1>
+
+<h1>Regular Form</h1>
+<% if flash[:errors] %>
+	<% flash[:errors].each do |error|  %> 
+	<%= error %> 
+	<% end %> 
+<% end %>
+
+
+<form action="/products" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<input type="text" name="[product][name]" placeholder="Name">
+	<input type="text" name="[product][description]" placeholder="Description">
+	<input type="text" name="[product][pricing]" placeholder="price">
+	<input type="text" name="[product][category_id]" placeholder="Category ID">
+	<input type="submit" value="Make New Product">
+
+</form> 
+
+<!--######## simple form is not making error messages  ##############-->
+
+
+<h1>Simple Form</h1>
+<%= simple_form_for @product, :defaults => { :wrapper_html => {:class => 'form-group'}, :input_html => { :class => 'form-control' } }, html: { class: "col-md-6" } do |f| %>
+	<%#= f.error_messages %> <!-- need to get these working --> 
+	<%= f.error_notification %>
+	<%= f.input :name %>
+	<%= f.input :description %>
+	<%= f.input :pricing, :input_html => {step: 5} %> <!-- makes it increase by 5 -->
+	<%= f.input :category_id %>
+	<%= f.button :submit, class: 'btn' %>	
+<% end %>
+
+
+<!-- when you submit the form it goes to the products page or index page --> 
+
+<!-- ########## does the type for price need to be number or something? --> 

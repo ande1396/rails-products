@@ -1,0 +1,40 @@
+<h1>Products#edit</h1>
+<p>Find me in app/views/products/edit.html.erb</p>
+
+
+<!-- could mayybee just call @product.errors.full_messages --> 
+<% if flash[:errors] %>
+	<% flash[:errors].each do |error| %>
+		<%= error %>
+	<% end %>
+<% end %>
+
+<form action="/products/<%= @product.id %>" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<!-- 2 --> 
+	<input type="hidden" name="_method" value="put">
+	<!-- 2 --> 
+	<input type="text" name="[product][name]" placeholder="<%= @product.name %>"> <!-- 1--> 
+	<input type="text" name="[product][description]" placeholder="Description">
+	<input type="email" name="[product][pricing]" placeholder="Price">
+	<input type="submit" value="Submit Posts">
+
+</form>
+
+
+<!--############## this still doesnt work #########################################--> 
+<%= simple_form_for @product, :defaults => { :wrapper_html => {:class => 'form-group'}, :input_html => { :class => 'form-control' } }, html: { class: "col-md-6" } do |f| %>
+	<%= f.input :name %>
+	<%= f.input :description %>
+	<%= f.input :pricing %>
+	<%= f.input :category_id %>
+	<%= f.button :submit, class: 'btn' %>	
+<% end %> 
+
+<%= link_to 'Go Back', products_path, :class => "btn btn-primary", method: :get %>
+
+
+
+<!-- this is just the simple form by itself, rails knows where to go, look at the inspect element --> 
+
+<!-- --> 
